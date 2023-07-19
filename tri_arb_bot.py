@@ -86,6 +86,8 @@ def stop_command(update: Update, context: CallbackContext):
     running = False
     update.message.reply_text('Stopping script')
 
+
+ Function for executing trades
 async def execute_trade(exchange, first_symbol, second_symbol, third_symbol, tickers, initial_amount, fee, first_tick_size, second_tick_size, third_tick_size):
 
     # Use adjusted trades (including fee)
@@ -141,17 +143,19 @@ async def execute_trade(exchange, first_symbol, second_symbol, third_symbol, tic
         await asyncio.sleep(1)
     
     # Fetch final balance
-    #balance = await exchange.fetch_balance()
-    #final_amount = balance['free']['USDT']
+    balance = await exchange.fetch_balance()
+    final_amount = balance['free']['USDT']
 
     # Calculate profit/loss
-    #profit = final_amount - initial_amount
+    profit = final_amount - initial_amount
 
-    #print(f'Trade completed: Initial amount: {initial_amount}, Final amount: {final_amount}, Profit: {profit}')
+    print(f'Trade completed: Initial amount: {initial_amount}, Final amount: {final_amount}, Profit: {profit}')
 
     # return profit and final amount if needed for further calculations or logging
-    #return profit,  final_amount
-    
+    return profit,  final_amount
+
+
+# Function for calculating the price impact of the order based on the orderbook asks, bids, and volumes
 async def calculate_price_impact(exchange, symbols, order_sizes, sides):
     logging.info(f'Calculating price impact ')
     
@@ -201,7 +205,7 @@ async def calculate_price_impact(exchange, symbols, order_sizes, sides):
     
     return price_impacts
 
-#Function to find triangular arbitrage opportunities for each exchange
+#Function for finding triangular arbitrage opportunities for each exchange
 async def find_triangular_arbitrage_opportunities(exchange, markets, tickers, exchange_name, fee, initial_amount ):    
     
     logging.info('Finding arbitrage opportunities.')
@@ -374,19 +378,18 @@ async def find_triangular_arbitrage_opportunities(exchange, markets, tickers, ex
                             logging.info(f'Arbitrage opportunity confirmed on {exchange_name}.')
 
                             # call execute trades
-                            if exchange_name == 'Kucoin':
-                                profit, final_amount = await execute_trade(
-                                    exchange,
-                                    first_symbol,
-                                    second_symbol,
-                                    third_symbol,
-                                    tickers,
-                                    initial_amount ,
-                                    fee,
-                                    first_tick_size,
-                                    second_tick_size,
-                                    third_tick_size
-                                )
+                            profit, final_amount = await execute_trade(
+                                exchange,
+                                first_symbol,
+                                second_symbol,
+                                third_symbol,
+                                tickers,
+                                initial_amount ,
+                                fee,
+                                first_tick_size,
+                                second_tick_size,
+                                third_tick_size
+                            )
                                 
                             print(f'Profitable trade found on {exchange_name}: {first_symbol} -> {second_symbol} -> {third_symbol}. Profit percentage: {real_profit_percentage:.2f}%', 'Profit change after checks: ', real_profit-profit, ' USDT')
 
