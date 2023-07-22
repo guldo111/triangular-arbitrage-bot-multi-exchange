@@ -3,9 +3,9 @@
 
 This Python script implements a Triangular Arbitrage Bot using the CCXT library to interact with various cryptocurrency exchanges. The bot scans the markets for arbitrage opportunities across different trading pairs and automatically executes trades to take advantage of price discrepancies.
 
-The bot supports exchanges such as Binance, Kucoin, Okex, and Huobi. It utilizes the CCXT library to fetch market data, place orders, and calculate price impacts. The bot considers fees and tick sizes when executing trades.
+The bot supports exchanges such as Binance, Kucoin, Okex, and Huobi. It utilizes the CCXT library to fetch market data, place orders, and calculate price impacts. The bot considers fees and tick sizes when executing trades. Additionally, the bot takes into account the impact of its orders on the current order book to avoid profitable trades only theoretically.
 
-It uses a triangular arbitrage strategy, where it identifies three trading pairs involving a base currency (e.g., BTC/USDT, ETH/USDT, BTC/ETH) and looks for opportunities where the cumulative profits of the trades are above a specified threshold.
+It uses a triangular arbitrage strategy, where it identifies The bot searches through all possible triangular opportunities on each exchange that start with USDT as the quote currency (e.g., BTC/USDT, ETH/USDT, BTC/ETH) and looks for opportunities where the cumulative profits of the trades are above a specified threshold. 
 
 The bot sends notifications to a Telegram chat with details of profitable trades, including the trading pairs, profit percentage, and executed trades. It logs all activities in the 'arbitrage.log' file.
 
