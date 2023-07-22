@@ -87,7 +87,7 @@ def stop_command(update: Update, context: CallbackContext):
     update.message.reply_text('Stopping script')
 
 
- Function for executing trades
+# Function for executing trades
 async def execute_trade(exchange, first_symbol, second_symbol, third_symbol, tickers, initial_amount, fee, first_tick_size, second_tick_size, third_tick_size):
 
     # Use adjusted trades (including fee)
